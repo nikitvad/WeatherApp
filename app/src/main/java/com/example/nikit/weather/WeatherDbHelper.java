@@ -43,6 +43,7 @@ public class WeatherDbHelper extends SQLiteOpenHelper {
 
     private ContentValues getContentValuesFormWeather(Weather weather){
         ContentValues values = new ContentValues();
+        values.put(WeatherTable._ID, weather.getId());
         values.put(WeatherTable.COLUMN_NAME_MAIN_TEMP, weather.getMainTemp());
         values.put(WeatherTable.COLUMN_NAME_MIN_TEMP, weather.getMinTemp());
         values.put(WeatherTable.COLUMN_NAME_MAX_TEMP, weather.getMaxTemp());
@@ -85,21 +86,22 @@ public class WeatherDbHelper extends SQLiteOpenHelper {
 
             do {
                 Weather weather = new Weather();
-                weather.setMainTemp(cursor.getDouble(cursor.getColumnIndex(DataBaseContract.WeatherTable.COLUMN_NAME_MAIN_TEMP)));
-                weather.setMinTemp(cursor.getDouble(cursor.getColumnIndex(DataBaseContract.WeatherTable.COLUMN_NAME_MIN_TEMP)));
-                weather.setMaxTemp(cursor.getDouble(cursor.getColumnIndex(DataBaseContract.WeatherTable.COLUMN_NAME_MAX_TEMP)));
+                weather.setId(cursor.getLong(cursor.getColumnIndex(WeatherTable._ID)));
+                weather.setMainTemp(cursor.getDouble(cursor.getColumnIndex(WeatherTable.COLUMN_NAME_MAIN_TEMP)));
+                weather.setMinTemp(cursor.getDouble(cursor.getColumnIndex(WeatherTable.COLUMN_NAME_MIN_TEMP)));
+                weather.setMaxTemp(cursor.getDouble(cursor.getColumnIndex(WeatherTable.COLUMN_NAME_MAX_TEMP)));
 
-                weather.setMainPressure(cursor.getDouble(cursor.getColumnIndex(DataBaseContract.WeatherTable.COLUMN_NAME_PRESSURE)));
-                weather.setMainHumidity(cursor.getDouble(cursor.getColumnIndex(DataBaseContract.WeatherTable.COLUMN_NAME_HUMIDITY)));
+                weather.setMainPressure(cursor.getDouble(cursor.getColumnIndex(WeatherTable.COLUMN_NAME_PRESSURE)));
+                weather.setMainHumidity(cursor.getDouble(cursor.getColumnIndex(WeatherTable.COLUMN_NAME_HUMIDITY)));
 
-                weather.setWeatherMain(cursor.getString(cursor.getColumnIndex(DataBaseContract.WeatherTable.COLUMN_NAME_WEATHER_MAIN)));
-                weather.setWeatherDescription(cursor.getString(cursor.getColumnIndex(DataBaseContract.WeatherTable.COLUMN_NAME_DESCRIPTION)));
+                weather.setWeatherMain(cursor.getString(cursor.getColumnIndex(WeatherTable.COLUMN_NAME_WEATHER_MAIN)));
+                weather.setWeatherDescription(cursor.getString(cursor.getColumnIndex(WeatherTable.COLUMN_NAME_DESCRIPTION)));
 
-                weather.setWeatherIconId(cursor.getString(cursor.getColumnIndex(DataBaseContract.WeatherTable.COLUMN_NAME_ICON_ID)));
+                weather.setWeatherIconId(cursor.getString(cursor.getColumnIndex(WeatherTable.COLUMN_NAME_ICON_ID)));
 
-                weather.setCloudsAll(cursor.getInt(cursor.getColumnIndex(DataBaseContract.WeatherTable.COLUMN_NAME_CLOUDS_ALL)));
-                weather.setWindSpeed(cursor.getDouble(cursor.getColumnIndex(DataBaseContract.WeatherTable.COLUMN_NAME_WIND_SPEED)));
-                weather.setWindDeg(cursor.getDouble(cursor.getColumnIndex(DataBaseContract.WeatherTable.COLUMN_NAME_WIND_DEG)));
+                weather.setCloudsAll(cursor.getInt(cursor.getColumnIndex(WeatherTable.COLUMN_NAME_CLOUDS_ALL)));
+                weather.setWindSpeed(cursor.getDouble(cursor.getColumnIndex(WeatherTable.COLUMN_NAME_WIND_SPEED)));
+                weather.setWindDeg(cursor.getDouble(cursor.getColumnIndex(WeatherTable.COLUMN_NAME_WIND_DEG)));
 
                 Date date = new Date(cursor.getLong(cursor.getColumnIndex(WeatherTable.COLUMN_NAME_DATE)));
                 weather.setDate(date);

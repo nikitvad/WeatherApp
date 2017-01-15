@@ -33,7 +33,7 @@ public final class DataBaseContract {
         public static final String COLUMN_NAME_WIND_DEG = "wind_deg";
         public static final String COLUMN_NAME_DATE = "date";
 
-        public static final String[] ARRAY_OF_COLUMN_NAMES = {COLUMN_NAME_MAIN_TEMP, COLUMN_NAME_MAX_TEMP, COLUMN_NAME_MIN_TEMP,
+        public static final String[] ARRAY_OF_COLUMN_NAMES = {_ID, COLUMN_NAME_MAIN_TEMP, COLUMN_NAME_MAX_TEMP, COLUMN_NAME_MIN_TEMP,
                                                                 COLUMN_NAME_PRESSURE, COLUMN_NAME_HUMIDITY, COLUMN_NAME_WEATHER_MAIN,
                                                                 COLUMN_NAME_DESCRIPTION, COLUMN_NAME_ICON_ID, COLUMN_NAME_CLOUDS_ALL,
                                                                 COLUMN_NAME_WIND_SPEED, COLUMN_NAME_WIND_DEG, COLUMN_NAME_DATE};
@@ -42,7 +42,7 @@ public final class DataBaseContract {
         public static final String DELETE_TABLE = "DROP TABLE " + TABLE_NAME;
         public static final String CREATE_TABLE = "CREATE TABLE " +
                 TABLE_NAME + " ("+
-                _ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                _ID + " BIGINT PRIMARY KEY, " +
                 COLUMN_NAME_MAIN_TEMP + REAL_TYPE + COMMA_SEP +
                 COLUMN_NAME_MAX_TEMP + REAL_TYPE + COMMA_SEP +
                 COLUMN_NAME_MIN_TEMP + REAL_TYPE + COMMA_SEP +

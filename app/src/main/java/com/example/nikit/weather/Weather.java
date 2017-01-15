@@ -13,7 +13,7 @@ public class Weather {
     private double mainPressure;
     private double mainHumidity;
 
-    private int weatherId;
+    private long id;
     private String weatherMain;
 
 
@@ -75,12 +75,12 @@ public class Weather {
         this.mainHumidity = mainHumidity;
     }
 
-    public int getWeatherId() {
-        return weatherId;
+    public long getId() {
+        return id;
     }
 
-    public void setWeatherId(int weatherId) {
-        this.weatherId = weatherId;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getWeatherDescription() {
@@ -139,7 +139,7 @@ public class Weather {
                 ", maxTemp=" + maxTemp +
                 ", mainPressure=" + mainPressure +
                 ", mainHumidity=" + mainHumidity +
-                ", weatherId=" + weatherId +
+                ", id=" + id +
                 ", weatherMain='" + weatherMain + '\'' +
                 ", weatherDescription='" + weatherDescription + '\'' +
                 ", weatherIconId='" + weatherIconId + '\'' +

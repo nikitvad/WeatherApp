@@ -8,12 +8,13 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
 
     private RecyclerView rvList;
     private ArrayList<Weather> weathers;
@@ -28,11 +29,19 @@ public class MainActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         dbHelper = new WeatherDbHelper(this);
 
-
         weathers = new ArrayList<>();
 
         rvList = (RecyclerView) findViewById(R.id.rv_weather_list);
-        rvList.setAdapter(new WeatherAdapter(weathers));
+
+        WeatherAdapter adapter = new WeatherAdapter(weathers);
+        adapter.setClickListener(new WeatherAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(long weatherId) {
+                Toast.makeText(MainActivity.this, weatherId+" id", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        rvList.setAdapter(adapter);
         rvList.setLayoutManager(new LinearLayoutManager(this));
 
         new FetchWeatherAsyncTask().execute();
@@ -71,7 +80,6 @@ public class MainActivity extends AppCompatActivity {
             for(Weather weather: weathers){
                 Log.d("weather", weather.toString());
             }
-
 
             return null;
         }

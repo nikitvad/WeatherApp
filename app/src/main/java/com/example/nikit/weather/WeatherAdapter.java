@@ -18,6 +18,7 @@ import java.util.ArrayList;
 
 public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.WeatherViewHolder> {
     private ArrayList<Weather> weathers;
+    private OnItemClickListener clickListener;
 
 
     public WeatherAdapter(ArrayList<Weather> weathers) {
@@ -42,6 +43,9 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.WeatherV
     }
 
 
+    public void setClickListener(OnItemClickListener listener){
+        clickListener = listener;
+    }
 
     class WeatherViewHolder extends RecyclerView.ViewHolder{
         private TextView tvWeatherDate;
@@ -54,6 +58,18 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.WeatherV
 
             tvWeatherDate = (TextView)itemView.findViewById(R.id.tv_weather_date);
             ivWeatherImage = (ImageView)itemView.findViewById(R.id.iv_weather_image);
+
+            if(clickListener!=null){
+                itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Weather weather = weathers.get(getAdapterPosition());
+                        clickListener.onItemClick(weather.getId());
+
+
+                    }
+                });
+            }
         }
 
         public void bindWeather(Weather weather){
@@ -63,12 +79,16 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.WeatherV
             Log.d("imageurl", imageUrl);
             Log.d("imageurl", weather.getWeatherIconId());
 
-
             Picasso.with(itemView.getContext()).load(imageUrl).into(ivWeatherImage);
 
         }
+    }
 
 
+    public interface OnItemClickListener{
+
+        void onItemClick(long weatherId);
 
     }
+
 }

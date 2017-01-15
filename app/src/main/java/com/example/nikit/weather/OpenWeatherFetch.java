@@ -16,6 +16,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -65,11 +66,11 @@ public class OpenWeatherFetch {
         return jsonObject;
     }
 
-
-
     private Weather parseWeather(JSONObject jsonWeatherItem){
         Weather weather = new Weather();
         try {
+
+            weather.setId(jsonWeatherItem.getLong("dt"));
             JSONObject jsonWeatherMain = jsonWeatherItem.getJSONObject("main");
             weather.setMainTemp(jsonWeatherMain.getDouble("temp"));
             weather.setMinTemp(jsonWeatherMain.getDouble("temp_max"));
@@ -94,10 +95,9 @@ public class OpenWeatherFetch {
             weather.setWindSpeed(jsonWeatherWind.getDouble("speed"));
             weather.setWindDeg(jsonWeatherWind.getDouble("deg"));
         }catch (JSONException e){
-            Log.d("josn", e.toString());
-            e.printStackTrace();
-        }catch (ParseException e){
             Log.d("json", e.toString());
+            e.printStackTrace();
+        }catch (Exception e){
             e.printStackTrace();
         }
 
@@ -123,9 +123,4 @@ public class OpenWeatherFetch {
         }
 
     }
-
-
-
-
-
 }
