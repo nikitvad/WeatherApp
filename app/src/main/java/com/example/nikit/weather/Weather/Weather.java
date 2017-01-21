@@ -1,4 +1,4 @@
-package com.example.nikit.weather;
+package com.example.nikit.weather.Weather;
 
 import java.util.Date;
 

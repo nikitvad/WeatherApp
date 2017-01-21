@@ -1,13 +1,13 @@
-package com.example.nikit.weather;
+package com.example.nikit.weather.Weather;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.nikit.weather.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -75,9 +75,6 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.WeatherV
         public void bindWeather(Weather weather){
             tvWeatherDate.setText(weather.getDate().toString());
             String imageUrl = String.format(WEATHER_IMAGE_URL, weather.getWeatherIconId());
-
-            Log.d("imageurl", imageUrl);
-            Log.d("imageurl", weather.getWeatherIconId());
 
             Picasso.with(itemView.getContext()).load(imageUrl).into(ivWeatherImage);
 

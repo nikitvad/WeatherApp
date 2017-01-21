@@ -1,3 +1,28 @@
 <resources>
     <string name="app_name">Weather</string>
+
+    <string-array name="temp_measure">
+        <item>˚C</item>
+        <item>˚F</item>
+        <item>K</item>
+    </string-array>
+
+    <string name="temp_measure_def_val">˚F</string>
+
+    <string-array name="city_names">
+        <item>Kyyiv</item>
+        <item>Odessa</item>
+        <item>Cherkasy</item>
+    </string-array>
+
+    <string-array name="city_id">
+        <item>703447</item>
+        <item>698740</item>
+        <item>710791</item>
+
+    </string-array>
+
+    <string name="city_id_def_val">703447</string>
+
+
 </resources>

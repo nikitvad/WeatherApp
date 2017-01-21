@@ -1,4 +1,4 @@
-package com.example.nikit.weather;
+package com.example.nikit.weather.Database;
 
 import android.provider.BaseColumns;
 
@@ -7,7 +7,7 @@ import android.provider.BaseColumns;
  */
 
 public final class DataBaseContract {
-    public static final int DB_VERSION = 5;
+    public static final int DB_VERSION = 6;
     public static final String DB_NAME = "WeatherDB.db";
     public static final String TEXT_TYPE = " TEXT";
     public static final String COMMA_SEP = ",";
@@ -42,7 +42,7 @@ public final class DataBaseContract {
         public static final String DELETE_TABLE = "DROP TABLE " + TABLE_NAME;
         public static final String CREATE_TABLE = "CREATE TABLE " +
                 TABLE_NAME + " ("+
-                _ID + " BIGINT PRIMARY KEY, " +
+                _ID + " INTEGER PRIMARY KEY, " +
                 COLUMN_NAME_MAIN_TEMP + REAL_TYPE + COMMA_SEP +
                 COLUMN_NAME_MAX_TEMP + REAL_TYPE + COMMA_SEP +
                 COLUMN_NAME_MIN_TEMP + REAL_TYPE + COMMA_SEP +

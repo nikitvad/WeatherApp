@@ -1,6 +1,9 @@
-package com.example.nikit.weather;
+package com.example.nikit.weather.Weather;
 
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -14,9 +17,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -24,13 +25,24 @@ import java.util.List;
  */
 
 public class OpenWeatherFetch {
+
     static JSONObject jsonObject = null;
     static InputStream inputStream = null;
+
     static String jsonString = "";
+
+    public static String KEY_CITY_ID = "city_id";
+    public static String WEATHER_API_KEY="fb932f11d172ebff38ca77f59cd8e63b";
+    public static final String WEATHER_URL = "http://api.openweathermap.org/data/2.5/forecast/city?id=%1$s&APPID="+WEATHER_API_KEY;
+
 
     public OpenWeatherFetch(){}
 
-    public JSONObject getJsonFromUrl(String urlString){
+    private JSONObject getWeatherJson(Context context) throws IOException {
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        String cityId= preferences.getString(KEY_CITY_ID, null);
+        String urlString = String.format(WEATHER_URL, cityId);
 
         try {
 
@@ -54,19 +66,17 @@ public class OpenWeatherFetch {
         }catch (MalformedURLException e){
             Log.d("OpenWeatherFetch", e.toString());
             e.printStackTrace();
-        }catch (IOException e){
-            Log.d("OpenWeatherFetch", e.toString());
-            e.printStackTrace();
+
         }catch (JSONException e){
             Log.d("OpenWeatherFetch", e.toString());
             e.printStackTrace();
         }
 
-
+        Log.d("jsonWeather", jsonObject.toString());
         return jsonObject;
     }
 
-    private Weather parseWeather(JSONObject jsonWeatherItem){
+    private Weather getWeather(JSONObject jsonWeatherItem){
         Weather weather = new Weather();
         try {
 
@@ -104,17 +114,20 @@ public class OpenWeatherFetch {
         return weather;
     }
 
-    public void getWeatherListFromJson(JSONObject jsonBody, List<Weather> targetList, boolean clearTargetList){
+
+    public void getWeatherList(Context context, List<Weather> targetList, boolean clearTargetList)throws IOException{
 
         if(clearTargetList){
             targetList.clear();
         }
 
+        JSONObject jsonBody = getWeatherJson(context);
+
         try {
             JSONArray jsonArray = jsonBody.getJSONArray("list");
             Log.d("list", jsonArray.length()+"");
             for (int i = 0; i < jsonArray.length(); i++) {
-                targetList.add(parseWeather(jsonArray.getJSONObject(i)));
+                targetList.add(getWeather(jsonArray.getJSONObject(i)));
                 Log.d("jsonArrayItem", jsonArray.getJSONObject(i).toString());
             }
         }catch (JSONException e) {

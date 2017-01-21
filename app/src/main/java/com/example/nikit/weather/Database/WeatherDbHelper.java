@@ -1,4 +1,4 @@
-package com.example.nikit.weather;
+package com.example.nikit.weather.Database;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -7,7 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import com.example.nikit.weather.DataBaseContract.WeatherTable;
+import com.example.nikit.weather.Database.DataBaseContract.WeatherTable;
+import com.example.nikit.weather.Weather.Weather;
 
 import java.util.Date;
 import java.util.List;
@@ -40,7 +41,6 @@ public class WeatherDbHelper extends SQLiteOpenHelper {
 
     }
 
-
     private ContentValues getContentValuesFormWeather(Weather weather){
         ContentValues values = new ContentValues();
         values.put(WeatherTable._ID, weather.getId());
@@ -55,10 +55,7 @@ public class WeatherDbHelper extends SQLiteOpenHelper {
         values.put(WeatherTable.COLUMN_NAME_CLOUDS_ALL, weather.getCloudsAll());
         values.put(WeatherTable.COLUMN_NAME_WIND_SPEED, weather.getWindSpeed());
         values.put(WeatherTable.COLUMN_NAME_WIND_DEG, weather.getWindDeg());
-
-        //need to check that it work?
         values.put(WeatherTable.COLUMN_NAME_DATE, weather.getDate().getTime());
-        Log.d("date put", weather.getDate().getTime()+"");
         return values;
 
     }
@@ -77,6 +74,32 @@ public class WeatherDbHelper extends SQLiteOpenHelper {
     }
 
 
+    private Weather getWeatherFromCursor(Cursor cursor){
+        Weather weather = new Weather();
+
+        weather.setId(cursor.getLong(cursor.getColumnIndex(WeatherTable._ID)));
+        weather.setMainTemp(cursor.getDouble(cursor.getColumnIndex(WeatherTable.COLUMN_NAME_MAIN_TEMP)));
+        weather.setMinTemp(cursor.getDouble(cursor.getColumnIndex(WeatherTable.COLUMN_NAME_MIN_TEMP)));
+        weather.setMaxTemp(cursor.getDouble(cursor.getColumnIndex(WeatherTable.COLUMN_NAME_MAX_TEMP)));
+
+        weather.setMainPressure(cursor.getDouble(cursor.getColumnIndex(WeatherTable.COLUMN_NAME_PRESSURE)));
+        weather.setMainHumidity(cursor.getDouble(cursor.getColumnIndex(WeatherTable.COLUMN_NAME_HUMIDITY)));
+
+        weather.setWeatherMain(cursor.getString(cursor.getColumnIndex(WeatherTable.COLUMN_NAME_WEATHER_MAIN)));
+        weather.setWeatherDescription(cursor.getString(cursor.getColumnIndex(WeatherTable.COLUMN_NAME_DESCRIPTION)));
+
+        weather.setWeatherIconId(cursor.getString(cursor.getColumnIndex(WeatherTable.COLUMN_NAME_ICON_ID)));
+
+        weather.setCloudsAll(cursor.getInt(cursor.getColumnIndex(WeatherTable.COLUMN_NAME_CLOUDS_ALL)));
+        weather.setWindSpeed(cursor.getDouble(cursor.getColumnIndex(WeatherTable.COLUMN_NAME_WIND_SPEED)));
+        weather.setWindDeg(cursor.getDouble(cursor.getColumnIndex(WeatherTable.COLUMN_NAME_WIND_DEG)));
+
+        Date date = new Date(cursor.getLong(cursor.getColumnIndex(WeatherTable.COLUMN_NAME_DATE)));
+        weather.setDate(date);
+
+        return weather;
+    }
+
     public void loadWeatherList(SQLiteDatabase db, List<Weather> weatherList){
         Cursor cursor = db.query(DataBaseContract.WeatherTable.TABLE_NAME,
                 DataBaseContract.WeatherTable.ARRAY_OF_COLUMN_NAMES,
@@ -85,36 +108,33 @@ public class WeatherDbHelper extends SQLiteOpenHelper {
         if(cursor.moveToFirst()){
 
             do {
-                Weather weather = new Weather();
-                weather.setId(cursor.getLong(cursor.getColumnIndex(WeatherTable._ID)));
-                weather.setMainTemp(cursor.getDouble(cursor.getColumnIndex(WeatherTable.COLUMN_NAME_MAIN_TEMP)));
-                weather.setMinTemp(cursor.getDouble(cursor.getColumnIndex(WeatherTable.COLUMN_NAME_MIN_TEMP)));
-                weather.setMaxTemp(cursor.getDouble(cursor.getColumnIndex(WeatherTable.COLUMN_NAME_MAX_TEMP)));
-
-                weather.setMainPressure(cursor.getDouble(cursor.getColumnIndex(WeatherTable.COLUMN_NAME_PRESSURE)));
-                weather.setMainHumidity(cursor.getDouble(cursor.getColumnIndex(WeatherTable.COLUMN_NAME_HUMIDITY)));
-
-                weather.setWeatherMain(cursor.getString(cursor.getColumnIndex(WeatherTable.COLUMN_NAME_WEATHER_MAIN)));
-                weather.setWeatherDescription(cursor.getString(cursor.getColumnIndex(WeatherTable.COLUMN_NAME_DESCRIPTION)));
-
-                weather.setWeatherIconId(cursor.getString(cursor.getColumnIndex(WeatherTable.COLUMN_NAME_ICON_ID)));
-
-                weather.setCloudsAll(cursor.getInt(cursor.getColumnIndex(WeatherTable.COLUMN_NAME_CLOUDS_ALL)));
-                weather.setWindSpeed(cursor.getDouble(cursor.getColumnIndex(WeatherTable.COLUMN_NAME_WIND_SPEED)));
-                weather.setWindDeg(cursor.getDouble(cursor.getColumnIndex(WeatherTable.COLUMN_NAME_WIND_DEG)));
-
-                Date date = new Date(cursor.getLong(cursor.getColumnIndex(WeatherTable.COLUMN_NAME_DATE)));
-                weather.setDate(date);
-
-
-                Log.d("date load", date.getTime()+"");
+                Weather weather = getWeatherFromCursor(cursor);
 
                 weatherList.add(weather);
 
             }while(cursor.moveToNext());
 
+            cursor.close();
+
         }
 
+    }
+
+    public Weather getWeatherById(SQLiteDatabase db, long id){
+        Weather weather;
+
+        Cursor cursor = db.query(WeatherTable.TABLE_NAME, WeatherTable.ARRAY_OF_COLUMN_NAMES,
+                WeatherTable._ID + "=?",
+                new String[]{Long.toString(id)},
+                null,
+                null,
+                null);
+
+        if(cursor.moveToFirst()){
+            weather = getWeatherFromCursor(cursor);
+            return weather;
+
+        }else return null;
     }
 
     public void clearWeatherTable(SQLiteDatabase db){
