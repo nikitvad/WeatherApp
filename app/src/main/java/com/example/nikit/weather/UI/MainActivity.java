@@ -1,16 +1,13 @@
-package com.example.nikit.weather.Activity;
+package com.example.nikit.weather.UI;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -20,8 +17,6 @@ import com.example.nikit.weather.Weather.OpenWeatherFetch;
 import com.example.nikit.weather.R;
 import com.example.nikit.weather.Weather.Weather;
 import com.example.nikit.weather.Weather.WeatherAdapter;
-
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -50,8 +45,9 @@ public class MainActivity extends AppCompatActivity{
         adapter.setClickListener(new WeatherAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(long weatherId) {
-                Intent intent = new Intent(MainActivity.this, DetailActivity.class);
-                intent.putExtra(DetailActivity.WEATHER_ID_KEY, weatherId);
+                //Intent intent = new Intent(MainActivity.this, DetailActivity.class);
+                Intent intent = new Intent(MainActivity.this, DetailActivity_v2.class);
+                intent.putExtra(DetailActivity_v2.WEATHER_ID_KEY, weatherId);
                 startActivity(intent);
             }
         });
@@ -104,7 +100,6 @@ public class MainActivity extends AppCompatActivity{
             try {
                 weatherFetch.getWeatherList(MainActivity.this, weatherArrayList, true);
             }catch (IOException e){
-                Log.d("getWeatherList", "problem with internet connection");
                 isSuccessful = false;
             }
 
@@ -139,7 +134,6 @@ public class MainActivity extends AppCompatActivity{
 
 
     }
-
 
     private class LoadWeatherFromDbAsyncTask extends AsyncTask<Void, Void, Void>{
         SQLiteDatabase db;

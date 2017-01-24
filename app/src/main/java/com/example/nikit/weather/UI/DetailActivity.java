@@ -1,4 +1,4 @@
-package com.example.nikit.weather.Activity;
+package com.example.nikit.weather.UI;
 
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
@@ -28,7 +28,7 @@ public class DetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail);
+        setContentView(R.layout.details_fragment);
 
         dbHelper = new WeatherDbHelper(this);
         Intent intent = getIntent();
@@ -37,6 +37,7 @@ public class DetailActivity extends AppCompatActivity {
 
 
     }
+
 
 
     private class LoadWeatherAsyncTask extends AsyncTask<Long, Void, Void>{

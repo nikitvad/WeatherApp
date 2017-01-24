@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.example.nikit.weather.R;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 /**
@@ -49,6 +50,10 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.WeatherV
 
     class WeatherViewHolder extends RecyclerView.ViewHolder{
         private TextView tvWeatherDate;
+        private TextView tvWeatherTemp;
+        private TextView tvWeatherHum;
+        private TextView tvWeatherPres;
+        private TextView tvWeatherWindSpeed;
         private ImageView ivWeatherImage;
 
 
@@ -58,6 +63,11 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.WeatherV
 
             tvWeatherDate = (TextView)itemView.findViewById(R.id.tv_weather_date);
             ivWeatherImage = (ImageView)itemView.findViewById(R.id.iv_weather_image);
+            tvWeatherTemp = (TextView) itemView.findViewById(R.id.tv_weather_item_temp);
+            tvWeatherHum = (TextView) itemView.findViewById(R.id.tv_weather_item_hum);
+            tvWeatherPres = (TextView) itemView.findViewById(R.id.tv_weather_item_pres);
+            tvWeatherWindSpeed = (TextView) itemView.findViewById(R.id.tv_weather_item_wind_speed);
+
 
             if(clickListener!=null){
                 itemView.setOnClickListener(new View.OnClickListener() {
@@ -73,10 +83,20 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.WeatherV
         }
 
         public void bindWeather(Weather weather){
-            tvWeatherDate.setText(weather.getDate().toString());
-            String imageUrl = String.format(WEATHER_IMAGE_URL, weather.getWeatherIconId());
 
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE, d MMM HH:mm");
+            String simpleDate = simpleDateFormat.format(weather.getDate());
+            tvWeatherDate.setText(simpleDate);
+
+            String imageUrl = String.format(WEATHER_IMAGE_URL, weather.getWeatherIconId());
             Picasso.with(itemView.getContext()).load(imageUrl).into(ivWeatherImage);
+
+            tvWeatherTemp.setText((int)(weather.getMainTemp()-273)+"C");
+            tvWeatherPres.setText(weather.getMainPressure()+"");
+            tvWeatherHum.setText(weather.getMainHumidity()+"%");
+            tvWeatherWindSpeed.setText(weather.getWindSpeed()+"m/s");
+
+
 
         }
     }

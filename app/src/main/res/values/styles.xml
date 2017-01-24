@@ -8,4 +8,19 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+
+    <!--
+                    android:text="Температура"
+                    android:layout_width="95dp"
+                    android:gravity="right"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"/>-->
+
+    <style name="WeatherValueTitle">
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:layout_width">95dp</item>
+        <item name="android:gravity">right</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
 </resources>

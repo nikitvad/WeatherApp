@@ -1,4 +1,4 @@
-package com.example.nikit.weather.Activity;
+package com.example.nikit.weather.UI;
 
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
