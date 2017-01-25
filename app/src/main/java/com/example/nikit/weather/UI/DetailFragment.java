@@ -12,12 +12,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.nikit.weather.Database.WeatherDbHelper;
 import com.example.nikit.weather.R;
 import com.example.nikit.weather.Weather.Weather;
 import com.squareup.picasso.Picasso;
+
+import java.text.SimpleDateFormat;
 
 /**
  * Created by nikit on 23.01.2017.
@@ -27,8 +28,15 @@ public class DetailFragment extends Fragment {
 
     private TextView tvWeatherDate;
     private ImageView ivWeatherIcon;
-    SQLiteDatabase db;
-    WeatherDbHelper dbHelper;
+    private TextView tvCurrTemp;
+    private TextView tvMaxTemp;
+    private TextView tvMinTemp;
+    private TextView tvCloud;
+    private TextView tvWindSpeed;
+    private TextView tvPressure;
+    private TextView tvHumidity;
+
+
     private Context context;
 
     private Weather weather;
@@ -52,7 +60,14 @@ public class DetailFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         ivWeatherIcon = (ImageView) view.findViewById(R.id.iv_fragment_weather_image);
         tvWeatherDate = (TextView) view.findViewById(R.id.tv_fragment_weather_date);
-
+        tvWeatherDate = (TextView) view.findViewById(R.id.tv_fragment_weather_date);
+        tvCurrTemp = (TextView) view.findViewById(R.id.tv_detail_curr_temp);
+        tvMaxTemp = (TextView) view.findViewById(R.id.tv_detail_max_temp);
+        tvMinTemp = (TextView) view.findViewById(R.id.tv_detail_min_temp);
+        tvCloud = (TextView) view.findViewById(R.id.tv_detail_cloud);
+        tvHumidity = (TextView) view.findViewById(R.id.tv_detail_humidity);
+        tvPressure = (TextView) view.findViewById(R.id.tv_detail_grnd_press);
+        tvWindSpeed = (TextView) view.findViewById(R.id.tv_detail_wind_speed);
     }
 
 
@@ -71,8 +86,19 @@ public class DetailFragment extends Fragment {
 
             String imageUrl = String.format(WEATHER_IMAGE_URL, weather.getWeatherIconId());
             Picasso.with(context).load(imageUrl).into(ivWeatherIcon);
-            tvWeatherDate.setText(weather.getWeatherDescription());
-            Log.d("weatherwww", weather.toString());
+
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE, d MMM HH:mm");
+            String simpleDate = simpleDateFormat.format(weather.getDate());
+            tvWeatherDate.setText(simpleDate);
+
+            tvCurrTemp.setText(weather.getMainTemp()+"");
+            tvMaxTemp.setText(weather.getMaxTemp()+"");
+            tvMinTemp.setText(weather.getMinTemp()+"");
+            tvCloud.setText(weather.getCloudsAll()+"");
+            tvWindSpeed.setText(weather.getWindSpeed()+"");
+            tvPressure.setText(weather.getMainPressure()+"");
+            tvHumidity.setText(weather.getMainHumidity()+"");
+
             db.close();
 
 
@@ -83,8 +109,6 @@ public class DetailFragment extends Fragment {
 
             dbHelper = new WeatherDbHelper(context);
             db = dbHelper.getReadableDatabase();
-
-
         }
 
         @Override

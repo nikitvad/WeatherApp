@@ -31,6 +31,8 @@ public class WeatherListFragment extends Fragment {
     private RecyclerView rvWeatherList;
     private ArrayList<Weather> weatherList;
     private Context context;
+    private OnFragmentInteractionListener mListener;
+
 
     public WeatherListFragment() {
         // Required empty public constructor
@@ -56,19 +58,41 @@ public class WeatherListFragment extends Fragment {
         adapter.setClickListener(new WeatherAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(long weatherId) {
-                Intent intent = new Intent(getContext(), DetailActivity_v2.class);
-                intent.putExtra(DetailActivity_v2.WEATHER_ID_KEY, weatherId);
-                startActivity(intent);
+                if(mListener!=null){
+                    mListener.onFragmentInteraction(weatherId);
+                }
             }
         });
         rvWeatherList.setAdapter(adapter);
         rvWeatherList.setLayoutManager(new LinearLayoutManager(context));
     }
 
+    @Override
+    public void onAttach(Context context){
+        super.onAttach(context);
+
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+
+    }
+
+    @Override
+    public void onDetach(){
+        super.onDetach();
+        mListener=null;
+    }
     public void updateContent(){
         new LoadWeatherFromDbAsyncTask().execute();
     }
 
+
+    public interface OnFragmentInteractionListener {
+        void onFragmentInteraction(long weatherId);
+    }
 
 
     private class FetchWeatherAsyncTask extends AsyncTask<Void, Void, Void> {

@@ -22,7 +22,6 @@ public class DetailActivity_v2 extends AppCompatActivity {
         fragment.setContext(DetailActivity_v2.this);
         fragment.updateContent(weatherId);
 
-
     }
 
 

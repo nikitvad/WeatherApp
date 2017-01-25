@@ -25,6 +25,137 @@
         android:layout_width="100dp"
         android:layout_height="100dp" />
 
+    <TextView
+        android:text="Temperature"
+        android:textSize="20sp"
+        android:textColor="#000"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <View
+        android:background="#909090"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"/>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp">
+        <TextView
+            android:text="Current"
+            style="@style/TextViewGeneral"
+            android:layout_alignParentLeft="true"/>
+        <TextView
+            android:id="@+id/tv_detail_curr_temp"
+            android:text="20C"
+            style="@style/TextViewGeneral"
+            android:layout_alignParentRight="true"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp">
+        <TextView
+            android:text="Max"
+            style="@style/TextViewGeneral"
+            android:layout_alignParentLeft="true"/>
+        <TextView
+            android:id="@+id/tv_detail_max_temp"
+            android:text="20C"
+            style="@style/TextViewGeneral"
+            android:layout_alignParentRight="true"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp">
+        <TextView
+            android:text="Min"
+            style="@style/TextViewGeneral"
+            android:layout_alignParentLeft="true"/>
+        <TextView
+            android:id="@+id/tv_detail_min_temp"
+            android:text="20C"
+            style="@style/TextViewGeneral"
+            android:layout_alignParentRight="true"/>
+
+    </RelativeLayout>
+
+    <View
+        android:background="#909090"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"/>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp">
+        <TextView
+            android:text="Cloudiness"
+            style="@style/TextViewGeneral"
+            android:layout_alignParentLeft="true"/>
+        <TextView
+            android:id="@+id/tv_detail_cloud"
+            android:text="54%"
+            style="@style/TextViewGeneral"
+            android:layout_alignParentRight="true"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp">
+        <TextView
+            android:text="Wind"
+            style="@style/TextViewGeneral"
+            android:layout_alignParentLeft="true"/>
+        <TextView
+            android:id="@+id/tv_detail_wind_speed"
+            android:text="14 m/s"
+            style="@style/TextViewGeneral"
+            android:layout_alignParentRight="true"/>
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp">
+        <TextView
+            android:text="Ground level"
+            style="@style/TextViewGeneral"
+            android:layout_alignParentLeft="true"/>
+        <TextView
+            android:id="@+id/tv_detail_grnd_press"
+            android:text="1000hP"
+            style="@style/TextViewGeneral"
+            android:layout_alignParentRight="true"/>
+
+    </RelativeLayout>
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp">
+        <TextView
+            android:text="Humidity"
+            style="@style/TextViewGeneral"
+            android:layout_alignParentLeft="true"/>
+        <TextView
+            android:id="@+id/tv_detail_humidity"
+            android:text="84%"
+            style="@style/TextViewGeneral"
+            android:layout_alignParentRight="true"/>
+
+    </RelativeLayout>
 
 </LinearLayout>
