@@ -9,7 +9,8 @@
 
     <TextView
         android:id="@+id/tv_weather_date"
-        android:text="sdsdfsdfsdf"
+        android:textSize="15sp"
+        android:textColor="#000"
         android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
@@ -32,14 +33,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
-                    android:text="Температура"
+                    android:text="@string/temperature"
                     style="@style/WeatherValueTitle"/>
                 <TextView
                     android:id="@+id/tv_weather_item_temp"
                     android:text="20C"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"/>
+                    style="@style/WeatherValue"/>
 
                 <View
                     android:layout_below="@+id/tv_weather_item_temp"
@@ -54,15 +53,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
-                    android:text="Влажность"
+                    android:text="@string/humidity"
                     style="@style/WeatherValueTitle"
                     />
                 <TextView
                     android:id="@+id/tv_weather_item_hum"
                     android:text="20C"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"/>
+                    style="@style/WeatherValue"/>
 
                 <View
                     android:layout_below="@+id/tv_weather_item_hum"
@@ -77,14 +74,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
-                    android:text="Ветер"
+                    android:text="@string/wind"
                     style="@style/WeatherValueTitle"/>
                 <TextView
                     android:id="@+id/tv_weather_item_wind_speed"
                     android:text="20C"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"/>
+                    style="@style/WeatherValue"/>
 
                 <View
                     android:layout_below="@+id/tv_weather_item_wind_speed"
@@ -99,28 +94,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
-                    android:text="Давление"
+                    android:text="@string/pressure"
                     style="@style/WeatherValueTitle"/>
                 <TextView
                     android:id="@+id/tv_weather_item_pres"
                     android:text="20C"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"/>
-
-
-
+                    style="@style/WeatherValue"/>
 
             </RelativeLayout>
-
-
 
         </LinearLayout>
 
 
         <ImageView
             android:id="@+id/iv_weather_image"
-            android:src="@drawable/sun"
             android:layout_width="100dp"
             android:layout_height="100dp" />
 

@@ -12,13 +12,21 @@
 
     <style name="WeatherValueTitle">
         <item name="android:layout_alignParentLeft">true</item>
-        <item name="android:layout_width">95dp</item>
+        <item name="android:layout_width">100dp</item>
+        <item name="android:textSize">15sp</item>
         <item name="android:gravity">right</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
 
+    <style name="WeatherValue">
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+    </style>
+
     <style name="TextViewGeneral">
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">18sp</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
     </style>

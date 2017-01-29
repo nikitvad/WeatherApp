@@ -7,25 +7,43 @@
         <item>K</item>
     </string-array>
 
+
+
     <string name="temp_measure_def_val">˚F</string>
 
+    <string name="loading_error">Ошибка загрузки данных</string>
+    <string name="loading_error_details">Невозможно загрузить данные, отсутствует соединение с интернетом.</string>
+    <string name="no_internet">Нет соединения с интернетом.</string>
+    <string name="unspecified_city">Не указан город</string>
+    <string name="choice_city">В настройках укажите город и другие параметры приложения</string>
+    <string name="settings">Настройки</string>
+    <string name="exit">Выход</string>
+    <string name="temperature">Температура</string>
+    <string name="current_temp">Текущая</string>
+    <string name="max_temp">Максимальная</string>
+    <string name="min_temp">Минимальная</string>
+    <string name="cloudiness">Облачность</string>
+    <string name="wind">Ветер</string>
+    <string name="pressure">Давление</string>
+    <string name="humidity">Влажность</string>
+
+
     <string-array name="city_names">
+        <item>Default</item>
         <item>Kyyiv</item>
         <item>Odessa</item>
         <item>Cherkasy</item>
     </string-array>
 
     <string-array name="city_id">
+        <item>0</item>
         <item>703447</item>
         <item>698740</item>
         <item>710791</item>
 
     </string-array>
 
-    <string name="city_id_def_val">703447</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

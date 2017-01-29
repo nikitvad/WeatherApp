@@ -14,9 +14,10 @@
     <ListPreference
         android:key="city_id"
         android:title="Город"
+        android:summary="Выберете город, для которого нужно отображать погоду"
         android:entries="@array/city_names"
         android:entryValues="@array/city_id"
-        android:defaultValue="@string/city_id_def_val"
+        android:defaultValue="0"
         ></ListPreference>
 
 
