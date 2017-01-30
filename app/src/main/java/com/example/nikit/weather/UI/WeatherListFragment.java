@@ -37,6 +37,7 @@ public class WeatherListFragment extends Fragment {
     private ArrayList<Weather> weatherList;
     private Context context;
     private OnFragmentInteractionListener mListener;
+    private Boolean loadFromInternet = false;
 
 
     public WeatherListFragment() {
@@ -89,10 +90,14 @@ public class WeatherListFragment extends Fragment {
         super.onDetach();
         mListener=null;
     }
-    public void updateData(){
+    public void updateData(boolean loadDataFromInternet){
+        this.loadFromInternet = loadDataFromInternet;
         new LoadWeatherFromDbAsyncTask().execute();
     }
 
+    public void loadWeatherFromInternet(){
+        new FetchWeatherAsyncTask().execute();
+    }
 
 
     public interface OnFragmentInteractionListener {
@@ -128,40 +133,30 @@ public class WeatherListFragment extends Fragment {
 
             try {
                 weatherFetch.getWeatherList(weatherArrayList, true);
+                if(weatherArrayList.size()>0){
+                    dbHelper.clearWeatherTable(db);
+                    dbHelper.insertWeather(db, weatherArrayList);
+                    successful=true;
+                }
             }catch (IOException e){
                 successful = false;
             }catch (JSONException e){
                 successful = false;
             }
 
-            if(weatherArrayList.size()>0) {
-
-                dbHelper.clearWeatherTable(db);
-                dbHelper.insertWeather(db, weatherArrayList);
-                weatherList.clear();
-                weatherList.addAll(weatherArrayList);
-                successful = true;
-            }
             return null;
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+
             db.close();
-
-            if(successful) {
-                super.onPostExecute(aVoid);
-
+            if(successful && weatherArrayList.size()>0) {
                 myAdapter.swapData(weatherArrayList);
 
+            }else if(myAdapter.getItemCount()>0){
 
-                //rvWeatherList.getLayoutManager().removeAllViews();
-                //rvWeatherList.getAdapter().notifyDataSetChanged();
-
-            }else if(!weatherList.isEmpty() ){
-
-                //rvWeatherList.getLayoutManager().removeAllViews();
-                //rvWeatherList.getAdapter().notifyDataSetChanged();
                 Toast.makeText(context, getResources().getString(R.string.no_internet), Toast.LENGTH_SHORT).show();
             }else{
 
@@ -195,12 +190,12 @@ public class WeatherListFragment extends Fragment {
         @Override
         protected void onPostExecute(Void aVoid) {
             db.close();
-            if(!weatherArrayList.isEmpty()){
-                myAdapter.swapData(weatherArrayList);
+
+            myAdapter.swapData(weatherArrayList);
+
+            if(loadFromInternet) {
+                new FetchWeatherAsyncTask().execute();
             }
-            //rvWeatherList.getLayoutManager().removeAllViews();
-            //rvWeatherList.getAdapter().notifyDataSetChanged();
-            new FetchWeatherAsyncTask().execute();
         }
 
         @Override
@@ -208,17 +203,6 @@ public class WeatherListFragment extends Fragment {
             dbHelper = new WeatherDbHelper(context);
             weatherArrayList = new ArrayList<>();
             dbHelper.loadWeatherList(db, weatherArrayList);
-
-            /*
-            if(!weatherArrayList.isEmpty()){
-
-                weatherList.clear();
-                weatherList.addAll(weatherArrayList);
-                //myAdapter.swapData(weatherArrayList);
-            }
-            */
-
-
             return null;
         }
     }

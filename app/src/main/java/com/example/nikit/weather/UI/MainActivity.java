@@ -15,7 +15,7 @@ import android.view.MenuItem;
 import com.example.nikit.weather.R;
 import com.example.nikit.weather.Weather.OpenWeatherFetch;
 
-public class Main2Activity extends AppCompatActivity implements
+public class MainActivity extends AppCompatActivity implements
         WeatherListFragment.OnFragmentInteractionListener {
 
     public static final String CITY_ID = "city_id";
@@ -29,7 +29,7 @@ public class Main2Activity extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main2);
+        setContentView(R.layout.activity_main);
 
         toolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
@@ -50,13 +50,12 @@ public class Main2Activity extends AppCompatActivity implements
         weatherListFragment.setContext(this);
         if(!cityId.equals("0")){
 
-            weatherListFragment.updateData();
+            weatherListFragment.updateData(true);
         }else{
 
             buildDialogUnspecifiedCity().show();
         }
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -77,7 +76,7 @@ public class Main2Activity extends AppCompatActivity implements
                 cityId = defaultPreferences.getString(OpenWeatherFetch.CITY_ID, null);
                 if (!cityId.equals("0")) {
 
-                    weatherListFragment.updateData();
+                    weatherListFragment.loadWeatherFromInternet();
                 } else {
 
                     buildDialogUnspecifiedCity().show();
@@ -90,17 +89,15 @@ public class Main2Activity extends AppCompatActivity implements
         }
     }
 
-
-
     @Override
     public void onFragmentInteraction(long weatherId) {
         if(tablet){
             DetailFragment fragment =(DetailFragment) getFragmentManager().findFragmentById(R.id.fragment_weather_details);
-            fragment.setContext(Main2Activity.this);
+            fragment.setContext(MainActivity.this);
             fragment.updateContent(weatherId);
         }else{
-            Intent intent = new Intent(Main2Activity.this, DetailActivity_v2.class);
-            intent.putExtra(DetailActivity_v2.WEATHER_ID_KEY, weatherId);
+            Intent intent = new Intent(MainActivity.this, DetailActivity.class);
+            intent.putExtra(DetailActivity.WEATHER_ID_KEY, weatherId);
             startActivityForResult(intent, 1);
         }
     }
@@ -114,7 +111,7 @@ public class Main2Activity extends AppCompatActivity implements
                 .setPositiveButton(getResources().getString(R.string.settings),   new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(Main2Activity.this, SettingsActivity.class);
+                        Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
                         startActivity(intent);
                     }
                 });
@@ -124,12 +121,15 @@ public class Main2Activity extends AppCompatActivity implements
     }
 
 
-    public static final int SETTING_UPDATED = 7777;
+    public static final int CITY_ID_CHANGED = 7777;
+    public static final int TEMP_MEASURE_CHANGED = 7778;
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode==SETTING_UPDATED){
-            weatherListFragment.updateData();
+        if(resultCode== CITY_ID_CHANGED){
+            weatherListFragment.updateData(true);
+        }else if(resultCode == TEMP_MEASURE_CHANGED){
+            weatherListFragment.updateData(false);
         }
     }
 }

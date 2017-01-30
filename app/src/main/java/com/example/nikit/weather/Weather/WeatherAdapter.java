@@ -49,16 +49,14 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.WeatherV
     }
 
 
-
-
     public void swapData(ArrayList<Weather> newWeathers){
         if(newWeathers!=null){
             this.weathers.clear();
             this.weathers.addAll(newWeathers);
             notifyDataSetChanged();
+
         }
     }
-
 
     public void setClickListener(OnItemClickListener listener){
         clickListener = listener;
@@ -76,8 +74,6 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.WeatherV
         public static final String TEMP_MEASURE = "temp_measure";
         private String tempMeasure;
 
-
-
         public static final String WEATHER_IMAGE_URL = "http://openweathermap.org/img/w/%1$s.png";
         public WeatherViewHolder(View itemView) {
             super(itemView);
@@ -90,7 +86,6 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.WeatherV
             tvWeatherWindSpeed = (TextView) itemView.findViewById(R.id.tv_weather_item_wind_speed);
 
             defaultPreferences = PreferenceManager.getDefaultSharedPreferences(itemView.getContext());
-            tempMeasure = defaultPreferences.getString(TEMP_MEASURE, null);
 
 
             if(clickListener!=null){
@@ -113,6 +108,7 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.WeatherV
 
             String imageUrl = String.format(WEATHER_IMAGE_URL, weather.getWeatherIconId());
             Picasso.with(itemView.getContext()).load(imageUrl).into(ivWeatherImage);
+            tempMeasure = defaultPreferences.getString(TEMP_MEASURE, null);
 
             int temp = (int)weather.getMainTemp();
             if(tempMeasure.equals("˚C")){
@@ -122,7 +118,6 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.WeatherV
                 temp*=1.8;
                 temp+=32;
             }
-
 
             tvWeatherTemp.setText(temp+tempMeasure);
             tvWeatherPres.setText(weather.getMainPressure()+"");

@@ -1,11 +1,9 @@
 package com.example.nikit.weather.UI;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
-import android.widget.Toast;
 
 import com.example.nikit.weather.R;
 
@@ -15,6 +13,8 @@ import com.example.nikit.weather.R;
 
 public class SettingsActivity extends PreferenceActivity implements
         SharedPreferences.OnSharedPreferenceChangeListener{
+
+    private int mResultCode;
 
 
     @Override
@@ -37,7 +37,18 @@ public class SettingsActivity extends PreferenceActivity implements
     }
 
     @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        setResult(mResultCode);
+        finish();
+    }
+
+    @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        setResult(Main2Activity.SETTING_UPDATED);
+        if(key.equals("city_id")) {
+            mResultCode = MainActivity.CITY_ID_CHANGED;
+        }else if(mResultCode!= MainActivity.CITY_ID_CHANGED && key.equals("temp_measure")){
+            mResultCode = MainActivity.TEMP_MEASURE_CHANGED;
+        }
     }
 }
