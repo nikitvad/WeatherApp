@@ -23,7 +23,7 @@
         android:layout_height="match_parent">
         <fragment
             android:id="@+id/fragment_weather"
-            android:name="com.example.nikit.weather.UI.WeatherListFragment"
+            class="com.example.nikit.weather.UI.WeatherListFragment"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="match_parent"/>

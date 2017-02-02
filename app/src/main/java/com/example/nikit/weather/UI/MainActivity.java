@@ -9,22 +9,22 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.nikit.weather.Constants;
 import com.example.nikit.weather.R;
-import com.example.nikit.weather.Weather.OpenWeatherFetch;
 
 public class MainActivity extends AppCompatActivity implements
         WeatherListFragment.OnFragmentInteractionListener {
-
-    public static final String CITY_ID = "city_id";
 
     private Toolbar toolbar;
     private WeatherListFragment weatherListFragment;
     private boolean tablet;
     private String cityId;
     private SharedPreferences defaultPreferences;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +33,6 @@ public class MainActivity extends AppCompatActivity implements
 
         toolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
-
 
         tablet = getResources().getBoolean(R.bool.isTablet);
         if (tablet) {
@@ -44,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements
 
         defaultPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        cityId = defaultPreferences.getString(CITY_ID, null);
+        cityId = defaultPreferences.getString(Constants.CITY_ID, "0");
 
         weatherListFragment = (WeatherListFragment)getSupportFragmentManager().findFragmentById(R.id.fragment_weather);
         weatherListFragment.setContext(this);
@@ -57,11 +56,13 @@ public class MainActivity extends AppCompatActivity implements
         }
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
         return true;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -73,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements
             }
 
             case R.id.menu_refresh: {
-                cityId = defaultPreferences.getString(OpenWeatherFetch.CITY_ID, null);
+                cityId = defaultPreferences.getString(Constants.CITY_ID, null);
                 if (!cityId.equals("0")) {
 
                     weatherListFragment.loadWeatherFromInternet();
@@ -88,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements
                 return super.onOptionsItemSelected(item);
         }
     }
+
 
     @Override
     public void onFragmentInteraction(long weatherId) {
@@ -121,14 +123,13 @@ public class MainActivity extends AppCompatActivity implements
     }
 
 
-    public static final int CITY_ID_CHANGED = 7777;
-    public static final int TEMP_MEASURE_CHANGED = 7778;
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode== CITY_ID_CHANGED){
+        if(resultCode == Constants.RESULT_CODE_CITY_ID_CHANGED){
             weatherListFragment.updateData(true);
-        }else if(resultCode == TEMP_MEASURE_CHANGED){
+            Log.d("onActivityResult", "dsfsdfsdfsdfsdf");
+        }else if(resultCode == Constants.RESULT_CODE_TEMP_MEASURE_CHANGED){
             weatherListFragment.updateData(false);
         }
     }

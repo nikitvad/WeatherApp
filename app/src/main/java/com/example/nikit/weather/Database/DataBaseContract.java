@@ -7,6 +7,7 @@ import android.provider.BaseColumns;
  */
 
 public final class DataBaseContract {
+
     public static final int DB_VERSION = 6;
     public static final String DB_NAME = "WeatherDB.db";
     public static final String TEXT_TYPE = " TEXT";
@@ -15,10 +16,13 @@ public final class DataBaseContract {
     public static final String INTEGER_TYPE = " INTEGER";
     public static final String NUMERIC_TYPE = " BIGINT";
 
+
     public DataBaseContract(){
     }
 
+
     public static abstract class WeatherTable implements BaseColumns{
+
         public static final String TABLE_NAME = "WEATHER";
         public static final String COLUMN_NAME_MAIN_TEMP = "main_temp";
         public static final String COLUMN_NAME_MIN_TEMP = "min_temp";

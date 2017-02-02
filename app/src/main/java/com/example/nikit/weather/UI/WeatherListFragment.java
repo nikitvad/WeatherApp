@@ -20,7 +20,7 @@ import com.example.nikit.weather.Database.WeatherDbHelper;
 import com.example.nikit.weather.R;
 import com.example.nikit.weather.Weather.OpenWeatherFetch;
 import com.example.nikit.weather.Weather.Weather;
-import com.example.nikit.weather.Weather.WeatherAdapter;
+import com.example.nikit.weather.WeatherAdapter.WeatherAdapter;
 
 import org.json.JSONException;
 
@@ -41,20 +41,22 @@ public class WeatherListFragment extends Fragment {
 
 
     public WeatherListFragment() {
-        // Required empty public constructor
+
         weatherList = new ArrayList<>();
     }
+
 
     public void setContext(Context context) {
         this.context = context;
     }
 
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         return inflater.inflate(R.layout.fragment_weather_list, container, false);
     }
+
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState){
@@ -62,6 +64,7 @@ public class WeatherListFragment extends Fragment {
 
         myAdapter = new WeatherAdapter(weatherList);
         myAdapter.setClickListener(new WeatherAdapter.OnItemClickListener() {
+
             @Override
             public void onItemClick(long weatherId) {
                 if(mListener!=null){
@@ -69,9 +72,11 @@ public class WeatherListFragment extends Fragment {
                 }
             }
         });
+
         rvWeatherList.setAdapter(myAdapter);
         rvWeatherList.setLayoutManager(new LinearLayoutManager(context));
     }
+
 
     @Override
     public void onAttach(Context context){
@@ -85,15 +90,19 @@ public class WeatherListFragment extends Fragment {
         }
     }
 
+
     @Override
     public void onDetach(){
         super.onDetach();
         mListener=null;
     }
+
+
     public void updateData(boolean loadDataFromInternet){
         this.loadFromInternet = loadDataFromInternet;
         new LoadWeatherFromDbAsyncTask().execute();
     }
+
 
     public void loadWeatherFromInternet(){
         new FetchWeatherAsyncTask().execute();
@@ -103,6 +112,7 @@ public class WeatherListFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(long weatherId);
     }
+
 
     private AlertDialog buildDialog(String title, String message, String buttonText, Drawable drawable){
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -119,11 +129,13 @@ public class WeatherListFragment extends Fragment {
         return builder.create();
     }
 
+
     private class FetchWeatherAsyncTask extends AsyncTask<Void, Void, Void> {
         private SQLiteDatabase db;
         private WeatherDbHelper dbHelper;
         private boolean successful = false;
         ArrayList<Weather> weatherArrayList;
+
 
         @Override
         protected Void doInBackground(Void... params) {
@@ -147,6 +159,7 @@ public class WeatherListFragment extends Fragment {
             return null;
         }
 
+
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
@@ -157,7 +170,9 @@ public class WeatherListFragment extends Fragment {
 
             }else if(myAdapter.getItemCount()>0){
 
-                Toast.makeText(context, getResources().getString(R.string.no_internet), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getResources().getString(R.string.no_internet),
+                            Toast.LENGTH_SHORT).show();
+
             }else{
 
                 buildDialog(getString(R.string.loading_error),
@@ -167,6 +182,7 @@ public class WeatherListFragment extends Fragment {
             }
         }
 
+
         @Override
         protected void onPreExecute() {
             dbHelper = new WeatherDbHelper(context);
@@ -175,10 +191,12 @@ public class WeatherListFragment extends Fragment {
 
     }
 
+
     private class LoadWeatherFromDbAsyncTask extends AsyncTask<Void, Void, Void>{
         private SQLiteDatabase db;
         private WeatherDbHelper dbHelper;
         ArrayList<Weather> weatherArrayList;
+
 
         @Override
         public void onPreExecute(){
@@ -186,6 +204,7 @@ public class WeatherListFragment extends Fragment {
             db = dbHelper.getReadableDatabase();
 
         }
+
 
         @Override
         protected void onPostExecute(Void aVoid) {
@@ -197,6 +216,7 @@ public class WeatherListFragment extends Fragment {
                 new FetchWeatherAsyncTask().execute();
             }
         }
+
 
         @Override
         protected Void doInBackground(Void... params) {

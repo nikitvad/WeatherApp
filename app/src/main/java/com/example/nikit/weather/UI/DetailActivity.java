@@ -14,6 +14,7 @@ public class DetailActivity extends AppCompatActivity {
     public static final String WEATHER_ID_KEY = "weather_id";
     private boolean tablet;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

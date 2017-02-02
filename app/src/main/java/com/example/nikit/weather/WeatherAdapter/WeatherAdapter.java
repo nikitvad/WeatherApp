@@ -1,22 +1,21 @@
-package com.example.nikit.weather.Weather;
+package com.example.nikit.weather.WeatherAdapter;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.nikit.weather.Constants;
 import com.example.nikit.weather.R;
+import com.example.nikit.weather.Weather.Weather;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Locale;
 
 /**
  * Created by nikit on 11.01.2017.
@@ -25,11 +24,12 @@ import java.util.Locale;
 public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.WeatherViewHolder> {
     private ArrayList<Weather> weathers;
     private OnItemClickListener clickListener;
-    public static final String TEMP_MEASURE = "temp_measure";
+
 
     public WeatherAdapter(ArrayList<Weather> weathers) {
         this.weathers = weathers;
     }
+
 
     @Override
     public WeatherViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -38,10 +38,13 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.WeatherV
         return viewHolder;
     }
 
+
     @Override
     public void onBindViewHolder(WeatherViewHolder holder, int position) {
         holder.bindWeather(weathers.get(position));
+
     }
+
 
     @Override
     public int getItemCount() {
@@ -58,11 +61,15 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.WeatherV
         }
     }
 
+
     public void setClickListener(OnItemClickListener listener){
         clickListener = listener;
     }
 
+
+
     class WeatherViewHolder extends RecyclerView.ViewHolder{
+
         private TextView tvWeatherDate;
         private TextView tvWeatherTemp;
         private TextView tvWeatherHum;
@@ -71,10 +78,9 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.WeatherV
         private ImageView ivWeatherImage;
 
         private SharedPreferences defaultPreferences;
-        public static final String TEMP_MEASURE = "temp_measure";
         private String tempMeasure;
 
-        public static final String WEATHER_IMAGE_URL = "http://openweathermap.org/img/w/%1$s.png";
+
         public WeatherViewHolder(View itemView) {
             super(itemView);
 
@@ -87,11 +93,11 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.WeatherV
 
             defaultPreferences = PreferenceManager.getDefaultSharedPreferences(itemView.getContext());
 
-
             if(clickListener!=null){
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+
                         Weather weather = weathers.get(getAdapterPosition());
                         clickListener.onItemClick(weather.getId());
 
@@ -100,15 +106,23 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.WeatherV
             }
         }
 
+
         public void bindWeather(Weather weather){
 
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE, d MMM HH:mm");
             String simpleDate = simpleDateFormat.format(weather.getDate());
             tvWeatherDate.setText(simpleDate);
 
-            String imageUrl = String.format(WEATHER_IMAGE_URL, weather.getWeatherIconId());
-            Picasso.with(itemView.getContext()).load(imageUrl).into(ivWeatherImage);
-            tempMeasure = defaultPreferences.getString(TEMP_MEASURE, null);
+            String imageUrl = String.format(Constants.URL_WEATHER_IMAGE, weather.getWeatherIconId());
+
+            try {
+                Picasso.with(itemView.getContext()).load(imageUrl).into(ivWeatherImage);
+
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
+            tempMeasure = defaultPreferences.getString(Constants.TEMP_MEASURE, null);
 
             int temp = (int)weather.getMainTemp();
             if(tempMeasure.equals("˚C")){
@@ -126,6 +140,7 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.WeatherV
 
         }
     }
+
 
 
     public interface OnItemClickListener{

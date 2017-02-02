@@ -16,7 +16,6 @@ public class Weather {
     private long id;
     private String weatherMain;
 
-
     private String weatherDescription;
     private String weatherIconId;
 
@@ -131,6 +130,7 @@ public class Weather {
         this.date = date;
     }
 
+
     @Override
     public String toString() {
         return "Weather{" +
@@ -149,5 +149,4 @@ public class Weather {
                 ", date=" + date +
                 '}';
     }
-
 }

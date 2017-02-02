@@ -45,7 +45,9 @@ public class DetailFragment extends Fragment {
     public static final String WEATHER_IMAGE_URL = "http://openweathermap.org/img/w/%1$s.png";
     public static final String TEMP_MEASURE = "temp_measure";
 
+
     public DetailFragment(){}
+
 
     public void setContext(Context context){
         this.context=context;
@@ -58,10 +60,10 @@ public class DetailFragment extends Fragment {
         return inflater.inflate(R.layout.details_fragment, container, false);
     }
 
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
 
         defaultPreferences = PreferenceManager.getDefaultSharedPreferences(view.getContext());
 
@@ -83,6 +85,7 @@ public class DetailFragment extends Fragment {
         new LoadWeatherAsyncTask().execute(weatherId);
     }
 
+
     private int tempConvert(int temp, String measure){
 
         if(tempMeasure.equals("˚C")){
@@ -95,6 +98,7 @@ public class DetailFragment extends Fragment {
 
         return temp;
     }
+
 
     private class LoadWeatherAsyncTask extends AsyncTask<Long, Void, Void> {
         private SQLiteDatabase db;
@@ -113,7 +117,6 @@ public class DetailFragment extends Fragment {
 
             tempMeasure = defaultPreferences.getString(TEMP_MEASURE, null);
 
-
             tvCurrTemp.setText(tempConvert((int)weather.getMainTemp(), tempMeasure)+tempMeasure);
             tvMaxTemp.setText(tempConvert((int)weather.getMaxTemp(), tempMeasure)+tempMeasure);
             tvMinTemp.setText(tempConvert((int)weather.getMinTemp(), tempMeasure)+tempMeasure);
@@ -122,9 +125,11 @@ public class DetailFragment extends Fragment {
             tvPressure.setText(weather.getMainPressure()+"");
             tvHumidity.setText(weather.getMainHumidity()+"%");
             getView().setVisibility(View.VISIBLE);
+
             db.close();
 
         }
+
 
         @Override
         protected void onPreExecute() {
@@ -133,11 +138,12 @@ public class DetailFragment extends Fragment {
             db = dbHelper.getReadableDatabase();
         }
 
+
         @Override
         protected Void doInBackground(Long... params) {
 
            weather = dbHelper.getWeatherById(db, params[0]);
-
+String s = "refracting";
             return null;
         }
     }

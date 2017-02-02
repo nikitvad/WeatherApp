@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.example.nikit.weather.Constants;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,10 +35,6 @@ public class OpenWeatherFetch {
 
     private Context context;
 
-    public static String CITY_ID = "city_id";
-    public static String WEATHER_API_KEY="fb932f11d172ebff38ca77f59cd8e63b";
-    public static final String WEATHER_API_URL = "http://api.openweathermap.org/data/2.5/forecast/city?id=%1$s&APPID="+WEATHER_API_KEY;
-
 
     public OpenWeatherFetch(Context context){
     this.context = context;
@@ -46,8 +44,8 @@ public class OpenWeatherFetch {
     private JSONObject getWeatherJson() throws IOException, JSONException {
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        String cityId = preferences.getString(CITY_ID, null);
-        String urlString = String.format(WEATHER_API_URL, cityId);
+        String cityId = preferences.getString(Constants.CITY_ID, null);
+        String urlString = String.format(Constants.URL_WEATHER_API, cityId);
 
         try {
 
@@ -77,6 +75,7 @@ public class OpenWeatherFetch {
         return jsonObject;
     }
 
+
     private Weather getWeather(JSONObject jsonWeatherItem){
         Weather weather = new Weather();
         try {
@@ -105,6 +104,7 @@ public class OpenWeatherFetch {
             JSONObject jsonWeatherWind = jsonWeatherItem.getJSONObject("wind");
             weather.setWindSpeed(jsonWeatherWind.getDouble("speed"));
             weather.setWindDeg(jsonWeatherWind.getDouble("deg"));
+
         }catch (JSONException e){
             Log.d("json", e.toString());
             e.printStackTrace();
@@ -126,7 +126,9 @@ public class OpenWeatherFetch {
 
         JSONArray jsonArray = jsonBody.getJSONArray("list");
         Log.d("list", jsonArray.length()+"");
+
         for (int i = 0; i < jsonArray.length(); i++) {
+
             targetList.add(getWeather(jsonArray.getJSONObject(i)));
             Log.d("jsonArrayItem", jsonArray.getJSONObject(i).toString());
         }

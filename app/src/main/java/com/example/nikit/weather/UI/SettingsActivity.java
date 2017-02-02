@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 
+import com.example.nikit.weather.Constants;
 import com.example.nikit.weather.R;
 
 /**
@@ -14,7 +15,7 @@ import com.example.nikit.weather.R;
 public class SettingsActivity extends PreferenceActivity implements
         SharedPreferences.OnSharedPreferenceChangeListener{
 
-    private int mResultCode;
+    private int mResultCode = 0;
 
 
     @Override
@@ -24,11 +25,13 @@ public class SettingsActivity extends PreferenceActivity implements
         PreferenceManager.setDefaultValues(this, R.xml.preferences, true);
     }
 
+
     @Override
     public void onResume(){
         super.onResume();
         getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
     }
+
 
     @Override
     public void onPause(){
@@ -36,19 +39,21 @@ public class SettingsActivity extends PreferenceActivity implements
         getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
     }
 
+
     @Override
     public void onBackPressed() {
-        //super.onBackPressed();
+
         setResult(mResultCode);
         finish();
     }
 
+
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if(key.equals("city_id")) {
-            mResultCode = MainActivity.CITY_ID_CHANGED;
-        }else if(mResultCode!= MainActivity.CITY_ID_CHANGED && key.equals("temp_measure")){
-            mResultCode = MainActivity.TEMP_MEASURE_CHANGED;
+            mResultCode = Constants.RESULT_CODE_CITY_ID_CHANGED;
+        }else if(mResultCode!= Constants.RESULT_CODE_CITY_ID_CHANGED && key.equals("temp_measure")){
+            mResultCode = Constants.RESULT_CODE_TEMP_MEASURE_CHANGED;
         }
     }
 }

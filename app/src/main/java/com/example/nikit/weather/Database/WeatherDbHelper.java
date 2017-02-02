@@ -19,14 +19,18 @@ import java.util.List;
 
 public class WeatherDbHelper extends SQLiteOpenHelper {
 
+
+
     public WeatherDbHelper(Context context){
         super(context, DataBaseContract.DB_NAME, null, DataBaseContract.DB_VERSION);
     }
+
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(WeatherTable.CREATE_TABLE);
     }
+
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -40,6 +44,7 @@ public class WeatherDbHelper extends SQLiteOpenHelper {
         }
 
     }
+
 
     private ContentValues getContentValuesFormWeather(Weather weather){
         ContentValues values = new ContentValues();
@@ -59,11 +64,14 @@ public class WeatherDbHelper extends SQLiteOpenHelper {
         return values;
 
     }
+
+
     public void insertWeather(SQLiteDatabase db, Weather weather){
 
         ContentValues values = getContentValuesFormWeather(weather);
         db.insert(WeatherTable.TABLE_NAME, null, values);
     }
+
 
     public void insertWeather(SQLiteDatabase db, List<Weather> weatherList){
         ContentValues contentValues;
@@ -100,6 +108,7 @@ public class WeatherDbHelper extends SQLiteOpenHelper {
         return weather;
     }
 
+
     public void loadWeatherList(SQLiteDatabase db, List<Weather> weatherList){
         Cursor cursor = db.query(DataBaseContract.WeatherTable.TABLE_NAME,
                 DataBaseContract.WeatherTable.ARRAY_OF_COLUMN_NAMES,
@@ -120,6 +129,7 @@ public class WeatherDbHelper extends SQLiteOpenHelper {
 
     }
 
+
     public Weather getWeatherById(SQLiteDatabase db, long id){
         Weather weather;
 
@@ -136,6 +146,7 @@ public class WeatherDbHelper extends SQLiteOpenHelper {
 
         }else return null;
     }
+
 
     public void clearWeatherTable(SQLiteDatabase db){
         db.delete(WeatherTable.TABLE_NAME, null, null);
