@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
+
     <ListPreference
         android:key="temp_measure"
-        android:title="Отображать температуру в"
-        android:entries="@array/temp_measure"
+        android:title="Единицы измерения температуры"
+        android:entries="@array/temp_measure_titles"
         android:entryValues="@array/temp_measure"
-        android:defaultValue="@string/temp_measure_def_val"
-        >
+        android:defaultValue="@string/temp_measure_def_val">
 
     </ListPreference>
 
     <ListPreference
         android:key="city_id"
         android:title="Город"
-        android:summary="Выберете город, для которого нужно отображать погоду"
         android:entries="@array/city_names"
         android:entryValues="@array/city_id"
         android:defaultValue="0"

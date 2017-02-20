@@ -1,26 +1,22 @@
-package com.example.nikit.weather.UI;
+package com.example.nikit.weather.ui.fragments;
 
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.example.nikit.weather.Database.WeatherDbHelper;
+import com.example.nikit.weather.database.WeatherDbHelper;
 import com.example.nikit.weather.R;
-import com.example.nikit.weather.Weather.OpenWeatherFetch;
-import com.example.nikit.weather.Weather.Weather;
-import com.example.nikit.weather.WeatherAdapter.WeatherAdapter;
+import com.example.nikit.weather.entity.OpenWeatherFetch;
+import com.example.nikit.weather.entity.Weather;
+import com.example.nikit.weather.weatherAdapter.WeatherAdapter;
 
 import org.json.JSONException;
 
@@ -36,8 +32,11 @@ public class WeatherListFragment extends Fragment {
     private WeatherAdapter myAdapter;
     private ArrayList<Weather> weatherList;
     private Context context;
+
     private OnFragmentInteractionListener mListener;
-    private Boolean loadFromInternet = false;
+    private OnLoadErrorListener errorListener;
+
+    private boolean loadFromInternet = false;
 
 
     public WeatherListFragment() {
@@ -45,18 +44,14 @@ public class WeatherListFragment extends Fragment {
         weatherList = new ArrayList<>();
     }
 
-
     public void setContext(Context context) {
         this.context = context;
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         return inflater.inflate(R.layout.fragment_weather_list, container, false);
     }
-
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState){
@@ -77,7 +72,6 @@ public class WeatherListFragment extends Fragment {
         rvWeatherList.setLayoutManager(new LinearLayoutManager(context));
     }
 
-
     @Override
     public void onAttach(Context context){
         super.onAttach(context);
@@ -88,6 +82,13 @@ public class WeatherListFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
+        if(context instanceof OnLoadErrorListener){
+            errorListener = (OnLoadErrorListener)context;
+        }else{
+            throw new RuntimeException(context.toString()
+                    + " must implement OnLoadErrorListener");
+        }
+
     }
 
 
@@ -99,8 +100,9 @@ public class WeatherListFragment extends Fragment {
 
 
     public void updateData(boolean loadDataFromInternet){
-        this.loadFromInternet = loadDataFromInternet;
-        new LoadWeatherFromDbAsyncTask().execute();
+            this.loadFromInternet = loadDataFromInternet;
+            new LoadWeatherFromDbAsyncTask().execute();
+
     }
 
 
@@ -109,33 +111,11 @@ public class WeatherListFragment extends Fragment {
     }
 
 
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(long weatherId);
-    }
-
-
-    private AlertDialog buildDialog(String title, String message, String buttonText, Drawable drawable){
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle(title)
-                .setMessage(message)
-                .setIcon(drawable)
-                .setCancelable(false)
-                .setNegativeButton(buttonText, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-        return builder.create();
-    }
-
-
     private class FetchWeatherAsyncTask extends AsyncTask<Void, Void, Void> {
         private SQLiteDatabase db;
         private WeatherDbHelper dbHelper;
         private boolean successful = false;
         ArrayList<Weather> weatherArrayList;
-
 
         @Override
         protected Void doInBackground(Void... params) {
@@ -159,7 +139,6 @@ public class WeatherListFragment extends Fragment {
             return null;
         }
 
-
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
@@ -167,21 +146,10 @@ public class WeatherListFragment extends Fragment {
             db.close();
             if(successful && weatherArrayList.size()>0) {
                 myAdapter.swapData(weatherArrayList);
-
-            }else if(myAdapter.getItemCount()>0){
-
-                Toast.makeText(getContext(), getResources().getString(R.string.no_internet),
-                            Toast.LENGTH_SHORT).show();
-
             }else{
-
-                buildDialog(getString(R.string.loading_error),
-                        getString(R.string.loading_error_details),
-                        "Ok",
-                        context.getResources().getDrawable(R.drawable.no_network)).show();
+                errorListener.onLoadError();
             }
         }
-
 
         @Override
         protected void onPreExecute() {
@@ -197,14 +165,12 @@ public class WeatherListFragment extends Fragment {
         private WeatherDbHelper dbHelper;
         ArrayList<Weather> weatherArrayList;
 
-
         @Override
         public void onPreExecute(){
             dbHelper = new WeatherDbHelper(context);
             db = dbHelper.getReadableDatabase();
 
         }
-
 
         @Override
         protected void onPostExecute(Void aVoid) {
@@ -217,7 +183,6 @@ public class WeatherListFragment extends Fragment {
             }
         }
 
-
         @Override
         protected Void doInBackground(Void... params) {
             dbHelper = new WeatherDbHelper(context);
@@ -225,5 +190,13 @@ public class WeatherListFragment extends Fragment {
             dbHelper.loadWeatherList(db, weatherArrayList);
             return null;
         }
+    }
+
+    public interface OnFragmentInteractionListener {
+        void onFragmentInteraction(long weatherId);
+    }
+
+    public interface OnLoadErrorListener{
+        void onLoadError();
     }
 }

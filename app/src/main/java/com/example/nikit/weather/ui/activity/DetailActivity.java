@@ -1,10 +1,11 @@
-package com.example.nikit.weather.UI;
+package com.example.nikit.weather.ui.activity;
 
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.example.nikit.weather.R;
+import com.example.nikit.weather.ui.fragments.DetailFragment;
 
 /**
  * Created by nikit on 23.01.2017.

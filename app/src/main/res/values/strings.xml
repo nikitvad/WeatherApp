@@ -6,7 +6,11 @@
         <item>˚F</item>
         <item>K</item>
     </string-array>
-
+    <string-array name="temp_measure_titles">
+        <item>Цельсий ˚C</item>
+        <item>Фаренгейт ˚F</item>
+        <item>Кельвин K</item>
+    </string-array>
 
 
     <string name="temp_measure_def_val">˚F</string>
@@ -40,10 +44,6 @@
         <item>703447</item>
         <item>698740</item>
         <item>710791</item>
-
     </string-array>
-
-
-
 
 </resources>

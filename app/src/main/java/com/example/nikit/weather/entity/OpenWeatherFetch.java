@@ -1,4 +1,4 @@
-package com.example.nikit.weather.Weather;
+package com.example.nikit.weather.entity;
 
 
 import android.content.Context;

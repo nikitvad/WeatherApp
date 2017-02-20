@@ -1,4 +1,4 @@
-package com.example.nikit.weather.Database;
+package com.example.nikit.weather.database;
 
 import android.provider.BaseColumns;
 

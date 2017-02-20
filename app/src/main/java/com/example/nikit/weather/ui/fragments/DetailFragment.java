@@ -1,4 +1,4 @@
-package com.example.nikit.weather.UI;
+package com.example.nikit.weather.ui.fragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -14,12 +14,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.nikit.weather.Database.WeatherDbHelper;
+import com.example.nikit.weather.database.WeatherDbHelper;
 import com.example.nikit.weather.R;
-import com.example.nikit.weather.Weather.Weather;
+import com.example.nikit.weather.entity.Weather;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
+
+import static com.example.nikit.weather.util.util.tempConvert;
 
 
 /**
@@ -45,21 +47,17 @@ public class DetailFragment extends Fragment {
     public static final String WEATHER_IMAGE_URL = "http://openweathermap.org/img/w/%1$s.png";
     public static final String TEMP_MEASURE = "temp_measure";
 
-
     public DetailFragment(){}
-
 
     public void setContext(Context context){
         this.context=context;
     }
-
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.details_fragment, container, false);
     }
-
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -79,31 +77,14 @@ public class DetailFragment extends Fragment {
         tvWindSpeed = (TextView) view.findViewById(R.id.tv_detail_wind_speed);
     }
 
-
     public void updateContent(long weatherId){
 
         new LoadWeatherAsyncTask().execute(weatherId);
     }
 
-
-    private int tempConvert(int temp, String measure){
-
-        if(tempMeasure.equals("˚C")){
-            temp-=273;
-        }else if(tempMeasure.equals("˚F")){
-            temp-=273;
-            temp*=1.8;
-            temp+=32;
-        }
-
-        return temp;
-    }
-
-
     private class LoadWeatherAsyncTask extends AsyncTask<Long, Void, Void> {
         private SQLiteDatabase db;
         private WeatherDbHelper dbHelper;
-
 
         @Override
         protected void onPostExecute(Void aVoid) {
@@ -125,7 +106,6 @@ public class DetailFragment extends Fragment {
             tvPressure.setText(weather.getMainPressure()+"");
             tvHumidity.setText(weather.getMainHumidity()+"%");
             getView().setVisibility(View.VISIBLE);
-
             db.close();
 
         }
@@ -133,17 +113,13 @@ public class DetailFragment extends Fragment {
 
         @Override
         protected void onPreExecute() {
-
             dbHelper = new WeatherDbHelper(context);
             db = dbHelper.getReadableDatabase();
         }
 
-
         @Override
         protected Void doInBackground(Long... params) {
-
            weather = dbHelper.getWeatherById(db, params[0]);
-String s = "refracting";
             return null;
         }
     }

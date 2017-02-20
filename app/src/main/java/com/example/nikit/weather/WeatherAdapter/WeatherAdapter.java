@@ -1,4 +1,4 @@
-package com.example.nikit.weather.WeatherAdapter;
+package com.example.nikit.weather.weatherAdapter;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.example.nikit.weather.Constants;
 import com.example.nikit.weather.R;
-import com.example.nikit.weather.Weather.Weather;
+import com.example.nikit.weather.entity.Weather;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
@@ -123,7 +123,6 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.WeatherV
             }
 
             tempMeasure = defaultPreferences.getString(Constants.TEMP_MEASURE, null);
-
             int temp = (int)weather.getMainTemp();
             if(tempMeasure.equals("˚C")){
                 temp-=273;
@@ -137,6 +136,7 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.WeatherV
             tvWeatherPres.setText(weather.getMainPressure()+"");
             tvWeatherHum.setText(weather.getMainHumidity()+"%");
             tvWeatherWindSpeed.setText(weather.getWindSpeed()+"m/s");
+
 
         }
     }

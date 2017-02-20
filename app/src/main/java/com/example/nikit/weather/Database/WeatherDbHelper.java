@@ -1,4 +1,4 @@
-package com.example.nikit.weather.Database;
+package com.example.nikit.weather.database;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -7,8 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import com.example.nikit.weather.Database.DataBaseContract.WeatherTable;
-import com.example.nikit.weather.Weather.Weather;
+import com.example.nikit.weather.database.DataBaseContract.WeatherTable;
+import com.example.nikit.weather.entity.Weather;
 
 import java.util.Date;
 import java.util.List;
